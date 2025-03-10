@@ -5,11 +5,13 @@ from tkinter import filedialog, messagebox, ttk
 from tkinter.scrolledtext import ScrolledText
 from pathlib import Path
 import threading
+import json
 
 def show_help():
     """Opens a Toplevel window with short documentation about the app."""
     help_win = tk.Toplevel()
     help_win.title("Help / Documentation")
+    help_win.iconphoto(False, tk.PhotoImage(file="hvx.png"))
     help_win.geometry("450x550")
     help_text = (
         "File Organizer Help\n"
@@ -44,6 +46,11 @@ def show_help():
     lbl = tk.Label(help_win, text=help_text, justify="left")
     lbl.pack(padx=10, pady=10, fill="both", expand=True)
 
+
+def load_sort_values_json():
+    with open("sort_config.json", "r", encoding="utf-8") as f:
+        config = json.load(f)
+    return config
 
 def get_category(cat, merge_l_f):
     if merge_l_f and cat in ("L", "F"):
@@ -208,7 +215,8 @@ def run_processing():
 
 root = tk.Tk()
 root.title("File Organizer")
-root.geometry("540x280")  # Slightly wider to fit the new Help button
+root.geometry("540x280")
+root.iconphoto(False, tk.PhotoImage(file="hvx.png"))
 
 main_frm = tk.Frame(root)
 main_frm.pack(expand=True, fill="both")
@@ -240,43 +248,7 @@ out_btn.grid(row=1, column=2, padx=5, pady=3)
 tk.Label(box_frm, text="Sort Order:", anchor="e").grid(row=2, column=0, sticky="e", padx=5, pady=3)
 sort_cb = ttk.Combobox(
     box_frm, textvariable=sort_var, state="readonly", width=33,
-    values=[
-        "",
-        "date",
-        "spot",
-        "category",
-        "date, spot",
-        "spot, date",
-        "date, category",
-        "category, date",
-        "spot, category",
-        "category, spot",
-        "category, person",
-        "date, spot, category",
-        "date, category, spot",
-        "spot, date, category",
-        "spot, category, date",
-        "category, date, spot",
-        "category, spot, date",
-        "spot, category, person",
-        "category, spot, person",
-        "category, person, spot",
-        "date, category, person",
-        "category, date, person",
-        "category, person, date",
-        "date, spot, category, person",
-        "date, category, spot, person",
-        "date, category, person, spot",
-        "spot, date, category, person",
-        "spot, category, date, person",
-        "spot, category, person, date",
-        "category, date, spot, person",
-        "category, date, person, spot",
-        "category, spot, date, person",
-        "category, spot, person, date",
-        "category, person, date, spot",
-        "category, person, spot, date"
-    ]
+    values=load_sort_values_json()
 )
 sort_cb.grid(row=2, column=1, columnspan=2, sticky="w", padx=5, pady=3)
 
