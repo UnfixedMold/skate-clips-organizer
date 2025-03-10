@@ -10,6 +10,7 @@ subprocess.run([
     "--noconsole",
     "--name", output_name,
     "--add-data", "sort_config.json;.",
+    "--add-data", "icons;icons",
     "--icon", ICON_ICO,
     script_name
 ], check=True)
