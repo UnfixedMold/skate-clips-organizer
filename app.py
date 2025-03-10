@@ -7,11 +7,13 @@ from pathlib import Path
 import threading
 import json
 
+from paths import ICON_PNG
+
 def show_help():
     """Opens a Toplevel window with short documentation about the app."""
     help_win = tk.Toplevel()
     help_win.title("Help / Documentation")
-    help_win.iconphoto(False, tk.PhotoImage(file="hvx.png"))
+    help_win.iconphoto(False, tk.PhotoImage(file=ICON_PNG))
     help_win.geometry("450x550")
     help_text = (
         "File Organizer Help\n"
@@ -216,7 +218,7 @@ def run_processing():
 root = tk.Tk()
 root.title("File Organizer")
 root.geometry("540x280")
-root.iconphoto(False, tk.PhotoImage(file="hvx.png"))
+root.iconphoto(False, tk.PhotoImage(file=ICON_PNG))
 
 main_frm = tk.Frame(root)
 main_frm.pack(expand=True, fill="both")
