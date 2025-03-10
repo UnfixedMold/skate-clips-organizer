@@ -8,5 +8,6 @@ subprocess.run([
     "--onefile",
     "--noconsole",
     "--name", output_name,
+    "--add-data", "sort_config.json;.",
     script_name
 ], check=True)

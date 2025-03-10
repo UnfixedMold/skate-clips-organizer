@@ -6,12 +6,12 @@ from tkinter.scrolledtext import ScrolledText
 from pathlib import Path
 import threading
 import json
+import sys
 
 def show_help():
     """Opens a Toplevel window with short documentation about the app."""
     help_win = tk.Toplevel()
     help_win.title("Help / Documentation")
-    help_win.iconphoto(False, tk.PhotoImage(file="hvx.png"))
     help_win.geometry("450x550")
     help_text = (
         "File Organizer Help\n"
@@ -47,10 +47,18 @@ def show_help():
     lbl.pack(padx=10, pady=10, fill="both", expand=True)
 
 
+def resource_path(relative_path):
+    """Return absolute path to resource, works for dev + for PyInstaller."""
+    if hasattr(sys, '_MEIPASS'):
+        # Running in a PyInstaller bundle
+        return os.path.join(sys._MEIPASS, relative_path)
+    # Running normally
+    return os.path.join(os.path.abspath("."), relative_path)
+
 def load_sort_values_json():
-    with open("sort_config.json", "r", encoding="utf-8") as f:
-        config = json.load(f)
-    return config
+    path = resource_path("sort_config.json")
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 def get_category(cat, merge_l_f):
     if merge_l_f and cat in ("L", "F"):
@@ -216,7 +224,6 @@ def run_processing():
 root = tk.Tk()
 root.title("File Organizer")
 root.geometry("540x280")
-root.iconphoto(False, tk.PhotoImage(file="hvx.png"))
 
 main_frm = tk.Frame(root)
 main_frm.pack(expand=True, fill="both")
